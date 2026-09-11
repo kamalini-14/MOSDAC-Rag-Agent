@@ -1,0 +1,489 @@
+TITLE : User Manual for MOSDAC Data Download API | Meteorological & Oceanographic Satellite Data Archival Centre
+URL : https://www.mosdac.gov.in/downloadapi-manual
+================================================================================
+
+User Manual for MOSDAC Data Download API | Meteorological & Oceanographic Satellite Data Archival Centre
+Skip to main Content
+-
+A
+A
++
+A
+A
+A
+Home
+Missions
+INSAT-3DR
+INSAT-3D
+KALPANA-1
+INSAT-3A
+MeghaTropiques
+SARAL-AltiKa
+OCEANSAT-2
+OCEANSAT-3
+INSAT-3DS
+SCATSAT-1
+Catalog
+Satellite
+Insitu (AWS)
+RADAR
+Galleries
+Satellite Products
+Weather Forecast
+Ocean Forecast
+RADAR (DWR)
+Global Ocean Current
+Data Access
+Order Data
+API based Access
+Open Data
+Atmosphere
+Bayesian based MT-SAPHIR rainfall
+GPS derived Integrated water vapour
+GSMap ISRO Rain
+METEOSAT8 Cloud Properties
+Land
+3D Volumetric TERLS DWRproduct
+Inland Water Height
+River Discharge
+Soil Moisture
+SPADEX-1: Earth Viewing Data for HRC
+SPADEX-1: Earth Viewing Data for MMX
+Ocean
+Global Ocean Surface Current
+High Resolution Sea Surface Salinity
+Indian Mainland Coastal Product
+Ocean Subsurface
+Oceanic Eddies Detection
+Sea Ice Occurrence Probability
+Wave based Renewable Energy
+Cal-Val
+Forecast
+RSS Feeds
+Reports
+Calibration
+Insitu
+Relative
+Validation
+Data Quality
+Weather
+Atlases
+Tools
+Sitemap
+Help
+You are here
+Home
+»
+Data Access
+» API based Access
+User Manual for MOSDAC Data Download API
+Overview:
+Welcome to the User Manual for
+MOSDAC Data Download API
+!
+This tool allows you to download satellite data seamlessly using a simple configuration fileâ€”
+config.json
+. Once you have filled out this file correctly according to your download requirements, simply run the script
+mdapi.py
+. No need to modify any code!
+This manual will provide you step-by-step guide to download data though "
+MOSDAC Data Download API
+".
+1. Prerequisites:
+For running this application, you will need following things:
+i
+.   Python (Version 3+)
+ii.
+Python Library: 'requests'
+iii.
+MOSDAC Account credentials (Refer section 5 for '
+Authentication
+'
+)
+iv.
+'datasetId' (Refer section 5 for '
+How to find your DatasetId (datasetId)
+?'
+)
+Optional Requirement:
+i.
+Python Library: 'tqdm'
+Steps to Install Python Libraries:
+Requests:
+i.
+Check if you have the 'requests' module already installed in your system, by running this on your terminal:
+pip show requests
+If it is already installed in your system, it will display various details such as version, location, etc.
+ii.
+If you don't see any response, then it means that 'requests' is not yet installed in your system. In order to download it, open your terminal and run this:
+pip install requests
+This will successfully install the 'requests' module in your system. You can follow the first step again to confirm whether the module has been successfully installed or not.
+Tqdm (Optional):
+iii.
+Check if you have the 'tqdm' module already installed in your system, by running this on your terminal:
+pip show tqdm
+If it is already installed in your system, it will display various details such as version, location, etc.
+iv.
+If you don't see any response, then it means that 'requests' is not yet installed in your system. In order to download it, open your terminal and run this:
+pip install tqdm
+This will successfully install the 'requests'module in your system. You can follow the previous step again to confirm whether the module has been successfully installed or not.
+[
+Hint
+: Although not a requirement, installing the Python library - 'tqdm', will provide an enhanced download experience by providing a well-structured 'Progress Bar' while downloading data, providing a clean and visually appealing download process.]
+2. How to Download, Install & Run:
+i. Download 'mdapi' from:
+https://mosdac.gov.in/software/mdapi.zip
+ii. Unzip the folder in your desired directory. One will find the following files:
+a. mdapi.py
+b. config.json
+Following is the structure of
+config.json:
+{
+"user_credentials": {
+"username": "",
+"password": ""
+},
+"search_parameters": {
+"datasetId": "",
+"startTime": "",
+"endTime": "",
+"count": "",
+"boundingBox": "",
+"gId": ""
+},
+"download_settings": {
+"download_path": "",
+"organize_by_date":false,
+"skip_user_prompt":false,
+"generate_error_log":false,
+"error_log_path": ""
+}
+}
+[
+Important Tip
+: Make sure you don't change the name of your Configuration File, i.e. - 'config.json'. Doing so will prevent successful execution of your 'mdapi.py' code, as the name of the Configuration file is already pre-configured inside it.]
+iii. Edit
+config.json
+correctly as per your data requirement, along with your user credentials. (
+Refer section: '
+Parameter Reference of config.json
+'
+)
+iv. In your terminal, run:
+python mdapi.py
+v. After fetching the search results, you will see the following message: (If
+skip_user_prompt
+is set
+false
+)
+Do you want to start downloading? (Y/N):
+vi. Type Y (or Yes) and hit Enter to start the download process.
+vii. After the Download is complete, you will see a logout message, containing:
+Download Complete!
+Logout Successful. Goodbye
+(your_username)
+!
+[
+Background Download
+: For background downloading set 'skip_user_input' as - true in your 'config.json' file. This will start data download without user interaction.]
+[
+Daily Download Limit
+: We allow users to download a maximum of 5000 data files per day, per user. If your download exceeds that limit, you will see the message: 'You have reached your Daily Download Quota (5000 per day)' and will be automatically logged out. You will have to wait until the next day if you want to download more data.]
+3. Data Download Workflow:
+Data download workflow includes the following steps to download data through MOSDAC:
+i.
+Data Search
+: Based on the input provided by the user in 'search_parameter' of 'client.json', our application will first fetch the total available files count and their total size. For this, one should know the required 'datasetId'. (Refer
+section 4
+for details)
+ii.
+Authentication process
+: Once the search results are retrieved, if the user provides the input to proceed for download, user authentication takes place. (Refer
+section 5
+for details)
+iii.
+Data download
+: After successful authentication, the data download begins as per user defined configuration.
+iv
+.
+Logout
+:
+After completion of the entire process, the user is logged out automatically.
+4. Searching data:
+You don't need to log in to search; an account is only required to
+download data
+.
+If your goal is just to
+search or preview
+available datasets using filters like
+datasetId
+,
+startTime
+, or
+boundingBox
+, etc., you can leave the 'user_credentials' blank.
+No authentication
+is needed in that case. However, DatasetId is required for search. Following section will guide you how to find your DatasetId:
+How to Find Your Dataset ID (
+datasetId
+)?
+In the
+config.json
+file, under the
+search_parameters
+section, there is a required field called
+datasetId
+. This field specifies
+which dataset you want to download from
+, and it is
+mandatory
+for the application to fetch any data.
+Where to Find Available Dataset IDs
+You can explore the available dataset IDs here:
+Browse datasets
+:
+https://mosdac.gov.in/catalog/satellite.php
+On this page, you can:
+Browse or filter datasets based on:
+o
+Satellite
+o
+Sensor
+o
+Search
+Find your desired
+Product Name (Eg:
+3SIMG_L1B_STD, E06OCM_L2C_AD
+)
+, which corresponds to the
+datasetId
+you should enter in your config file.
+Example Workflow
+i. Visit the dataset browser:
+https://mosdac.gov.in/catalog/satellite.php
+ii. Use filters to narrow down your options by satellite, sensor, etc.
+iii. Identify the product you're interested in.
+iv. Copy the
+Product Name
+exactly as shown - this is your
+datasetId
+.
+Example:
+If the product name is
+3SIMG_L1B_STD
+, then your config should include:
+"datasetId": "3SIMG_L1B_STD"
+Tip:
+Make sure there are no typos or extra spaces in the
+datasetId
+. It must match the platform's listing
+exactly
+.
+5. Authentication and Account Requirements
+To download any data using this application, you must first
+authenticate
+yourself using valid credentials.
+Authentication Process
+The application uses your
+MOSDAC Account credentials
+(username and password) to authenticate your session before downloading begins. These credentials must be provided in the
+config.json
+file under the
+user_credentials
+section:
+"user_credentials": {
+"username": "your_username",
+"password": "your_password"
+}
+Important:
+Without valid credentials, you will
+not
+be able to download any data.
+Don't Have an Account?
+If you donâ€™t already have an account, you must create one first:
+Create your account here
+:
+https://mosdac.gov.in/signup/
+Once your registration is complete and your account is
+approved
+, you will be eligible to use the application for downloading datasets.
+Forgot Your Password?
+You can reset your password here:
+Reset your password
+:
+https://mosdac.gov.in/auth/realms/Mosdac/login-actions/reset-credentials
+Failed Login Attempts
+If you enter incorrect credentials
+three times consecutively
+, your account will be
+temporarily locked for 1 hour
+.
+Please double-check your username and password before running the script to avoid triggering this lockout.
+Appendix: Parameter Reference of Config.json
+A. user_credentials:
+Field
+Description
+Required
+username
+Your username for MOSDAC login (*)
+Yes
+password
+Your password for MOSDAC login (*)
+Yes
+Correct
+Example:
+"user_credentials": {
+"username": "your_username",
+"password": "your_password"
+}
+Incorrect
+Example
+:
+"user_credentials": {
+"username": "",
+"password": ""
+}
+(Both fields must be filled in correctly for authentication to succeed.)
+B. search_parameters:
+Field
+Description
+Required
+Notes
+datasetId
+The dataset that you want to download
+Yes
+Example:
+"
+3SIMG_L1B_STD
+"
+startTime
+he start date from which data should be downloaded.
+No
+Format:
+"YYYY-MM-DD"
+Example:
+"2024-09-25"
+endTime
+The end date up to which data should be downloaded.
+No
+Format:
+"YYYY-MM-DD"
+Example:
+"2024-10-25"
+count
+Maximum number of records you want to download.
+No
+Max value:
+100
+boundingBox
+Area-wise filter your selected â€˜datasetIdâ€™.
+No
+Format:
+"minLon,minLat,maxLon,maxLat"
+Example:
+"70.0,8.0,90.0,28.0"
+gId
+Granule ID (specific ID if only one file is to be downloaded.)
+No
+Must be exact. Example:
+"15039367"
+[
+Tip:
+Although not required, we recommend setting the 'startTime' and 'endTime' according to your requirement, otherwise the search API will fetch results of the entire lifespan of the provided dataset.]
+Correct
+Example:
+"search_parameters": {
+"datasetId": "3SIMG_L1B_STD",
+"startTime": "2024-10-25",
+"endTime": "2025-03-27",
+"count": "50",
+"boundingBox": "70.0,8.0,90.0,28.0",
+"gId": ""
+}
+Incorrect
+Example
+:
+"search_parameters": {
+"datasetId": "3SIMG_L1",
+// Incorrect/Incomplete datasetId value
+"startTime": "25-10-2024",
+//Incorrect Date Format
+"endTime": "2023-10-25â€™,
+// endTime
+>
+startTime
+"count": "500",
+// Count
+>
+Max Count
+"boundingBox": "70.0, 8.0",
+// Incorrect boundingBox Format
+"gId": "1437ZBL1"
+// Incorrect gId value
+}
+C. download_settings (Optional)
+Customize how downloads and logging behave. Not mandatory to be set.
+Field
+Description
+Example
+download_path
+Directory path to store downloaded files
+"/home/user/downloads"
+organize_by_date
+Automatically organize downloaded data into subfolders (by year & date)
+true
+or
+false
+skip_user_prompt
+Whether to skip the "yes/no" prompt before download
+true
+(skip) or
+false
+(ask)
+generate_error_log
+Enables detailed error logs
+true
+or
+false
+error_log_path
+Custom directory for log storage (optional)
+"/home/user/logs"
+[ Tip: Organize download data by Date Structure (if enabled through option 'organize_by_date']:
+[download_path]/
+____ datasetId/
+____YYYY/
+___ DDMMM/
+___ [downloaded files...]
+]
+Correct
+Example:
+"download_settings": {
+"download_path": "/home/user/data",
+"organize_by_date": true,
+"skip_user_prompt": false,
+"generate_error_log": true,
+"error_log_path": "/home/user/logs"
+}
+Incorrect
+Example
+:
+"download_settings": {
+"download_path": "",
+"organize_by_date": "yes",
+// Should be boolean - true/false
+"skip_user_prompt": yes,
+// Should be boolean - true/false
+"generate_error_log": â€œnoâ€,
+// Should be boolean - true/false
+"error_log_path": ""
+}
+[Tip: If
+error_log_path
+is not set, logs will be created under following default path:
+[ source folder]/error_logs/DD-MM-YY_error.log
+]
+Need Help?
+If you encounter errors that persist even after following the steps defined in this user guide, you can reach out to our team on admin[at]mosdsac[dot]gov[dot]in. Please make sure you attach your Error log along with any further details you want to specify, enabling our team to understand and provide an appropriate solution for your encountered issues quickly.]
+Search
+Follow Us
+Website owned and maintained by MOSDAC, Space Applications Centre, Indian Space Research Organisation, Govt. of INDIA.

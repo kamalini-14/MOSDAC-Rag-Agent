@@ -1,0 +1,48 @@
+TITLE : Satellite Catalog
+URL : https://www.mosdac.gov.in/internal/catalog-satellite
+
+Satellite Catalog
+A-
+A
+A+
+X
+Sr.No
+Product
+/
+Acq Calendar/Version
+Product Description
+Processing Level
+Temporal Resolution
+Start Date
+End Date
+Processing Status
+DOI
+{{$index + 1}}
+{{allproduct.name}}
+{{allproduct.description}}
+{{allproduct.processlevel}}
+{{allproduct.frequency | uppercase}}
+{{allproduct.startdate}}
+{{allproduct.enddate}}
+{{allproduct.actv}}
+{{allproduct.actv}}
+{{allproduct.techdoc}}
+X
+{{name}} Version Detail
+Sr.No
+Version
+Description
+Start Date
+End Date
+{{$index + 1}}
+{{allversion.version}}
+{{allversion.desc}}
+--
+{{allversion.stdate}}
+{{allversion.enddate}}
+Sr.No
+Version
+Description
+1
+Default Version
+Initial Version

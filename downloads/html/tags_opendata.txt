@@ -1,0 +1,149 @@
+TITLE : Opendata | Meteorological & Oceanographic Satellite Data Archival Centre
+URL : https://www.mosdac.gov.in/tags/opendata
+
+Opendata | Meteorological & Oceanographic Satellite Data Archival Centre
+Skip to main Content
+-
+A
+A
++
+A
+A
+A
+Home
+Missions
+INSAT-3DR
+INSAT-3D
+KALPANA-1
+INSAT-3A
+MeghaTropiques
+SARAL-AltiKa
+OCEANSAT-2
+OCEANSAT-3
+INSAT-3DS
+SCATSAT-1
+Catalog
+Satellite
+Insitu (AWS)
+RADAR
+Galleries
+Satellite Products
+Weather Forecast
+Ocean Forecast
+RADAR (DWR)
+Global Ocean Current
+Data Access
+Order Data
+API based Access
+Open Data
+Atmosphere
+Bayesian based MT-SAPHIR rainfall
+GPS derived Integrated water vapour
+GSMap ISRO Rain
+METEOSAT8 Cloud Properties
+Land
+3D Volumetric TERLS DWRproduct
+Inland Water Height
+River Discharge
+Soil Moisture
+SPADEX-1: Earth Viewing Data for HRC
+SPADEX-1: Earth Viewing Data for MMX
+Ocean
+Global Ocean Surface Current
+High Resolution Sea Surface Salinity
+Indian Mainland Coastal Product
+Ocean Subsurface
+Oceanic Eddies Detection
+Sea Ice Occurrence Probability
+Wave based Renewable Energy
+Cal-Val
+Forecast
+RSS Feeds
+Reports
+Calibration
+Insitu
+Relative
+Validation
+Data Quality
+Weather
+Atlases
+Tools
+Sitemap
+Help
+You are here
+Home
+» Taxonomy term
+Opendata
+SPADEX-1: Earth Viewing Data for MMX
+Tags:
+Opendata
+Land
+Read more
+about SPADEX-1: Earth Viewing Data for MMX
+SPADEX-1: Earth Viewing Data for HRC
+Tags:
+Opendata
+Land
+Read more
+about SPADEX-1: Earth Viewing Data for HRC
+High Resolution Sea Surface Salinity
+The Bay of Bengal's high-resolution sea surface salinity has been reconstructed using a Lagrangian technique leveraging satellite data.
+Tags:
+Opendata
+Ocean
+Read more
+about High Resolution Sea Surface Salinity
+GSMap ISRO Rain
+The GSMaP_ISRO is a precipitation product that was developed through the Indian Space Research Organisation (ISRO) - Japan Aerospace Exploration Agency (JAXA) Impleme
+Tags:
+Opendata
+Atmosphere
+Read more
+about GSMap ISRO Rain
+3D Volumetric TERLS DWRproduct
+Tags:
+Opendata
+Land
+Read more
+about 3D Volumetric TERLS DWRproduct
+Bayesian based MT-SAPHIR rainfall
+Megha- Tropiques (MT) is a joint Indo-French collaborative satellite mission, which is launched on 12 October 2011.
+Tags:
+Opendata
+Atmosphere
+Read more
+about Bayesian based MT-SAPHIR rainfall
+METEOSAT8 Cloud Properties
+NASA LaRC is operationally generating global cloud properties products using different geostationary satellites.
+Tags:
+Opendata
+Atmosphere
+Read more
+about METEOSAT8 Cloud Properties
+Ocean Subsurface
+Satellite data has been used to reconstruct ocean interior density and velocity anomalies in the Bay of Bengal through the “interior + surface Quasigeostrophic” (isQG) method.
+Tags:
+Opendata
+Ocean
+Read more
+about Ocean Subsurface
+GPS derived Integrated water vapour
+Tags:
+Opendata
+Atmosphere
+Read more
+about GPS derived Integrated water vapour
+Oceanic Eddies Detection
+Tags:
+Opendata
+Ocean
+Read more
+about Oceanic Eddies Detection
+Pages
+1
+2
+next ›
+last »
+Search
+Follow Us
+Website owned and maintained by MOSDAC, Space Applications Centre, Indian Space Research Organisation, Govt. of INDIA.

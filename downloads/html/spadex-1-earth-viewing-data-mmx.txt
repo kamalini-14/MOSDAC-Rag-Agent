@@ -1,0 +1,256 @@
+TITLE : SPADEX-1: Earth Viewing Data for MMX | Meteorological & Oceanographic Satellite Data Archival Centre
+URL : https://www.mosdac.gov.in/spadex-1-earth-viewing-data-mmx
+
+SPADEX-1: Earth Viewing Data for MMX | Meteorological & Oceanographic Satellite Data Archival Centre
+Skip to main Content
+-
+A
+A
++
+A
+A
+A
+Home
+Missions
+INSAT-3DR
+INSAT-3D
+KALPANA-1
+INSAT-3A
+MeghaTropiques
+SARAL-AltiKa
+OCEANSAT-2
+OCEANSAT-3
+INSAT-3DS
+SCATSAT-1
+Catalog
+Satellite
+Insitu (AWS)
+RADAR
+Galleries
+Satellite Products
+Weather Forecast
+Ocean Forecast
+RADAR (DWR)
+Global Ocean Current
+Data Access
+Order Data
+API based Access
+Open Data
+Atmosphere
+Bayesian based MT-SAPHIR rainfall
+GPS derived Integrated water vapour
+GSMap ISRO Rain
+METEOSAT8 Cloud Properties
+Land
+3D Volumetric TERLS DWRproduct
+Inland Water Height
+River Discharge
+Soil Moisture
+SPADEX-1: Earth Viewing Data for HRC
+SPADEX-1: Earth Viewing Data for MMX
+Ocean
+Global Ocean Surface Current
+High Resolution Sea Surface Salinity
+Indian Mainland Coastal Product
+Ocean Subsurface
+Oceanic Eddies Detection
+Sea Ice Occurrence Probability
+Wave based Renewable Energy
+Cal-Val
+Forecast
+RSS Feeds
+Reports
+Calibration
+Insitu
+Relative
+Validation
+Data Quality
+Weather
+Atlases
+Tools
+Sitemap
+Help
+You are here
+Home
+»
+Data Access
+»
+Open Data
+»
+Land
+» SPADEX-1: Earth Viewing Data for MMX
+SPADEX-1: Earth Viewing Data for MMX
+SPADEX (Space-craft Docking Experiment) is based on the low docking concept using two small satellites. Docking refers to engaging and securing the two spacecraft together by a docking mechanism when the approaching spacecraft called the “SDX01” flies directly into another spacecraft called the “SDX02” in a controlled manner.
+The primary objectives of SPADEX experiment are to:
+To Develop and demonstrate the technology needed for rendezvous and docking, using two small satellites.
+The secondary mission objectives are to:
+Demonstrate the controllability of SDX01 & SDX02 in the docked condition.
+Data Access
+Science products are available to download with a Single Sign On on MOSDAC.
+Click Here
+to access the data
+Data Version
+Version 1.0 (beta)
+Data Sources
+NA
+Data Citation
+NA
+Processing Steps
+Data decoding by extraction of raw image bands (Blue, Red and Green) from payload data files.
+Radiometric correction for all bands using Look Up Table(LUT) application to convert raw image bands to radio-metrically corrected bands.
+Geometric Correction for removing geometric distortions in image and generating geo corrected products in WGS-84 datum.
+Band-to-Band registration for producing geo corrected BBR product in Natural Color Composite(NCC) format i.e. RGB bands
+.
+References
+[1]
+Lowe, David G. "Distinctive image features from scale-invariant keypoints."
+International journal of computer vision
+60.2 (2004): 91-110.
+Derivation Techniques and Algorithm
+Band-to-Band registration employs Scale Invariant Feature Transform (SIFT) for detecting keypoints across separate bands that are used for image registration. SIFT has been described in detail in [1].
+Limitations
+NA
+Known problems with data
+Since bands have temporal shift and clouds are moving features, clouds may appear slightly mis-registered.
+File Naming Convention
+he typical file name ‘
+PLDXXSTNP#SATORBNOVCAPIdYYDDDHHMMSSMSE_Vm_n
+_BBR_geo_final.tif’
+,Ex:MMXXXMU2P1SD20407001NNNN25264054328469_V1_1_BBR_geo_final.tif where:
+'PLD'
+stands for Payload name, ex: MMX.
+'STN'
+stands for Station-id, ex: MU2.
+'P#'
+stands for P1/P2.
+'SAT'
+stands for satellite name, ex: SD2
+'ORBNO'
+corresponds to the orbit number, ex: 04070
+'
+YYDDDHHMMSSMSE
+'
+corresponds to the file closing time after data is received.
+‘
+YY’
+is Year Integer Value.
+‘
+DDD’
+is Julian Day Integer Value.
+‘
+HH’
+is Hour Integer Value.
+‘
+MM’
+is Minutes Integer Value.
+‘
+SS’
+is Seconds Integer Value.
+‘
+MSE’
+is Milliseconds Integer value
+‘
+m’
+signifies major version number while
+‘n ‘
+signifies minor version number.
+All the data files are in GeoTiff format.
+MetaData
+Sr. No
+Core Metadata Elements
+Definition
+1
+Metadata language
+English
+2
+Metadata Contact
+MOSDAC
+3
+Metadata date
+April, 2026
+4
+Data Lineage or Quality
+Band to Band Registered geo corrected product in NCC form
+5
+Title
+Miniature Multispectral camera (MMX) band-to-band registered data from SPADEX mission
+6
+Abstract
+The data products will be used for natural resource study
+7
+Dataset Contact
+K.Suresh, PSPD/PMPG/SIPA SAC (ISRO), Ahmedabad-380015, India. Ph:+91 79 2691 4710.Email:
+ksuresh@sac.isro.gov.in
+Abdullah Suhail Ayyub Zinjani, PSPD/PMPG/SIPA SAC (ISRO), Ahmedabad-380015, India. Ph:+91 79 2691 4763.Email:
+abdul@sac.isro.gov.in
+8
+Update Frequency
+One time
+9
+Access Rights or Restriction
+Open Access
+10
+Spatial Resolution
+25.2 m
+11
+Language
+English
+12
+Topic Category
+Band to Band Registered geo corrected product as Natural Color Composite(NCC) using MMX payload data.
+13
+Keywords
+MMX,BBR,NCC,SPADEX.
+14
+Date or period
+May 2025 – Apr 2026
+15
+Responsible Party
+PSPD/PMPG/SIPA
+16
+Organization
+Space Applications Centre (ISRO), Ahmedabad, India
+16a
+Org. role
+Data processing for MMX payload
+16b
+Individual name
+Abdullah Suhail Ayyub Zinjani
+16c
+Position
+Scientist/Engineer
+16d
+Vertical Extent (minimumValue, maximumValue, unitOfMeasure, vertical datum)
+NA
+17
+Geographic Extent
+Latitude Range: -90 to 90 deg
+Longitude Range: 0 to 360 deg
+18
+Geographic name, geographic Identifier
+Global Data
+19
+Bounding box
+Lat_min: 40S, Lat_max: 40N
+Lon_min: 0E, Lon_max: 180E
+20
+Temporal Extent
+Scene wise
+21
+Access Rights or Restrictions
+Open Access
+22
+Distribution Information
+Online download of data files in GeoTiff format
+23
+Processing Level
+Level 2
+24
+Reference System
+Datum: WGS84
+Tags:
+Opendata
+Land
+Search
+Follow Us
+Website owned and maintained by MOSDAC, Space Applications Centre, Indian Space Research Organisation, Govt. of INDIA.

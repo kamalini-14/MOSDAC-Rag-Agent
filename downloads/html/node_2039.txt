@@ -1,0 +1,247 @@
+TITLE : SPADEX-1: Earth Viewing Data for HRC | Meteorological & Oceanographic Satellite Data Archival Centre
+URL : https://www.mosdac.gov.in/node/2039
+
+SPADEX-1: Earth Viewing Data for HRC | Meteorological & Oceanographic Satellite Data Archival Centre
+Skip to main Content
+-
+A
+A
++
+A
+A
+A
+Home
+Missions
+INSAT-3DR
+INSAT-3D
+KALPANA-1
+INSAT-3A
+MeghaTropiques
+SARAL-AltiKa
+OCEANSAT-2
+OCEANSAT-3
+INSAT-3DS
+SCATSAT-1
+Catalog
+Satellite
+Insitu (AWS)
+RADAR
+Galleries
+Satellite Products
+Weather Forecast
+Ocean Forecast
+RADAR (DWR)
+Global Ocean Current
+Data Access
+Order Data
+API based Access
+Open Data
+Atmosphere
+Bayesian based MT-SAPHIR rainfall
+GPS derived Integrated water vapour
+GSMap ISRO Rain
+METEOSAT8 Cloud Properties
+Land
+3D Volumetric TERLS DWRproduct
+Inland Water Height
+River Discharge
+Soil Moisture
+SPADEX-1: Earth Viewing Data for HRC
+SPADEX-1: Earth Viewing Data for MMX
+Ocean
+Global Ocean Surface Current
+High Resolution Sea Surface Salinity
+Indian Mainland Coastal Product
+Ocean Subsurface
+Oceanic Eddies Detection
+Sea Ice Occurrence Probability
+Wave based Renewable Energy
+Cal-Val
+Forecast
+RSS Feeds
+Reports
+Calibration
+Insitu
+Relative
+Validation
+Data Quality
+Weather
+Atlases
+Tools
+Sitemap
+Help
+You are here
+Home
+» SPADEX-1: Earth Viewing Data for HRC
+SPADEX-1: Earth Viewing Data for HRC
+SPADEX (Space-craft Docking Experiment) is based on the low docking concept using two small satellites. Docking refers to engaging and securing the two spacecraft together by a docking mechanism when the approaching spacecraft called the “SDX01” flies directly into another spacecraft called the “SDX02” in a controlled manner.
+The primary objectives of SPADEX experiment are to:
+To Develop and demonstrate the technology needed for rendezvous and docking, using two small satellites.
+The secondary mission objectives are to:
+Demonstrate the controllability of SDX01 & SDX02 in the docked condition.
+Data Access
+Click Here
+to access the Science Products . Request to use MOSDAC Single Sign On user credentials to download the data.
+Data Version
+Version 1.0 (beta)
+Data Sources
+High resolution camera data
+Data Citation
+NA
+Processing Steps
+Data decoding by extraction of raw image frames from payload data files.
+Radiometric correction for all frames using Look Up Table application to convert raw frames to rad frames
+Geometric Correction to rectify geometric distortions in the frames and generating geo corrected frame TIFs in WGS-84 datum.
+References
+[1]
+Lowe, David G. "Distinctive image features from scale-invariant keypoints."
+International journal of computer vision
+60.2 (2004): 91-110.
+Derivation Techniques and Algorithm
+Geo corrected frames are refined using control points estimated using Scale Invariant Feature Transform (SIFT) has been described in detail in [1].
+Limitations
+NA
+Known problems with data
+There can be some noise in the frames
+File Naming Convention
+The typical file name ‘
+PLDXXSTNP#SATORBNOVCAPIdYYDDDHHMMSSMSE_Vm_n_geo_refined.tif’
+,
+Ex:HRCXXMU2P1SD10407001NNNN25264054328469_V1_1_geo_refined.tif where:
+'PLD'
+stands for Payload name, ex: HRC.
+'STN'
+stands for Station-id, ex: MU2.
+'P#'
+stands for P1/P2.
+'SAT'
+stands for satellite name, ex: SD1
+'ORBNO'
+corresponds to the orbit number, ex: 04070
+'
+YYDDDHHMMSSMSE
+'
+corresponds to the file closing time after data is received.
+‘
+YY’
+is Year Integer Value.
+‘
+DDD’
+is Julian Day Integer Value.
+‘
+HH’
+is Hour Integer Value.
+‘
+MM’
+is Minutes Integer Value.
+‘
+SS’
+is Seconds Integer Value.
+‘
+MSE’
+is Milliseconds Integer value
+‘
+m’
+signifies major version number while
+‘n ‘
+signifies minor version number.
+All the data files are in GeoTiff format.
+MetaData
+Sr. No
+Core Metadata Elements
+Definition
+1
+Metadata language
+English
+2
+Metadata Contact
+MOSDAC
+3
+Metadata date
+March, 2026
+4
+Data Lineage or Quality
+Geo corrected frames
+5
+Title
+High resolution camera geo corrected frames from SPADEX mission
+6
+Abstract
+The data products will be used for natural resource study
+7
+Dataset Contact
+K.Suresh, PSPD/PMPG/SIPA SAC (ISRO), Ahmedabad-380015, India. Ph:+91 79 2691 4710.Email:
+ksuresh@sac.isro.gov.in
+Shweta, PSPD/PMPG/SIPA SAC (ISRO), Ahmedabad-380015, India. Ph:+91 79 2691 4765.Email: shwetaverma
+@sac.isro.gov.in
+8
+Update Frequency
+One time
+9
+Access Rights or Restriction
+Open Access
+10
+Spatial Resolution
+4.5 m
+11
+Language
+English
+12
+Topic Category
+Geo corrected frames using HRC payload data.
+13
+Keywords
+HRC, Geo corrected, SPADEX.
+14
+Date or period
+May 2025 – Apr 2026
+15
+Responsible Party
+PSPD/PMPG/SIPA SAC (ISRO), Ahmedabad-380015
+16
+Organization
+Space Applications Centre (ISRO), Ahmedabad, India
+16a
+Org. role
+Data processing for HRC payload
+16b
+Individual name
+Shweta Verma
+16c
+Position
+Scientist/Engineer-SD
+16d
+Vertical Extent (minimumValue, maximumValue, unitOfMeasure, vertical datum)
+NA
+17
+Geographic Extent
+Latitude Range: -90 to 90 deg
+Longitude Range: 0 to 360 deg
+18
+Geographic name, geographic Identifier
+Global Data
+19
+Bounding box
+Lat_min: 40S, Lat_max: 40N
+Lon_min: 0E, Lon_max: 180E
+20
+Temporal Extent
+Scene wise
+21
+Access Rights or Restrictions
+Open Access
+22
+Distribution Information
+Online download of data files in GeoTiff format
+23
+Processing Level
+Level 2
+24
+Reference System
+Datum: WGS84
+Tags:
+Opendata
+Land
+Search
+Follow Us
+Website owned and maintained by MOSDAC, Space Applications Centre, Indian Space Research Organisation, Govt. of INDIA.
