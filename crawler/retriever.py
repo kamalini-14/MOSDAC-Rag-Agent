@@ -1,4 +1,4 @@
-import os
+'''import os
 import re
 import math
 
@@ -1044,3 +1044,483 @@ if __name__ == "__main__":
         print(
             data["context"]
         )
+        
+'''
+import os
+import re
+import chromadb
+from sentence_transformers import SentenceTransformer
+
+
+class MOSDACRetriever:
+
+    def __init__(self):
+
+        BASE_DIR = os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)
+        )
+        )
+
+        self.vector_db_folder = os.path.join(
+        BASE_DIR,
+        "knowledge_base",
+        "vector_db"
+        )
+
+        print("\nLoading embedding model...")
+        self.model = SentenceTransformer("all-MiniLM-L6-v2")
+
+        print("Vector DB path:")
+        print(self.vector_db_folder)
+
+        self.client = chromadb.PersistentClient(
+            path=self.vector_db_folder
+        )
+
+        self.collection = self.client.get_collection(
+            name="mosdac_documents"
+        )
+
+        print(
+            f"Retriever initialized. "
+            f"Total chunks: {self.collection.count()}"
+        )
+
+    # =====================================================
+    # QUERY CLEANING
+    # =====================================================
+
+    def clean_query(self, query):
+
+        query = query.lower()
+
+        # Remove punctuation
+        query = re.sub(r"[^a-z0-9\s-]", " ", query)
+
+        # Remove extra spaces
+        query = re.sub(r"\s+", " ", query).strip()
+
+        return query
+
+    # =====================================================
+    # KEYWORD EXTRACTION
+    # =====================================================
+
+    def extract_keywords(self, query):
+
+        query = self.clean_query(query)
+
+        stop_words = {
+            "what",
+            "is",
+            "are",
+            "the",
+            "a",
+            "an",
+            "of",
+            "for",
+            "to",
+            "in",
+            "on",
+            "and",
+            "or",
+            "tell",
+            "me",
+            "about",
+            "please",
+            "can",
+            "you",
+            "give",
+            "show",
+            "list",
+            "available",
+            "information"
+        }
+
+        words = query.split()
+
+        keywords = [
+            word
+            for word in words
+            if word not in stop_words and len(word) > 2
+        ]
+
+        return keywords
+
+    # =====================================================
+    # KEYWORD SCORE
+    # =====================================================
+
+    def keyword_score(self, query, document):
+
+        query_clean = self.clean_query(query)
+        document_clean = self.clean_query(document)
+
+        keywords = self.extract_keywords(query)
+
+        if not keywords:
+            return 0.0
+
+        matched = 0
+
+        for keyword in keywords:
+
+            if keyword in document_clean:
+                matched += 1
+
+        keyword_score = matched / len(keywords)
+
+        # Exact phrase bonus
+        if query_clean in document_clean:
+            keyword_score += 0.30
+
+        return min(keyword_score, 1.0)
+
+    # =====================================================
+    # QUERY TYPE
+    # =====================================================
+
+    def is_broad_question(self, query):
+
+        query_lower = query.lower()
+
+        broad_patterns = [
+            "what are",
+            "which are",
+            "list",
+            "available",
+            "types of",
+            "missions",
+            "satellites",
+            "services",
+            "products",
+            "what information"
+        ]
+
+        return any(
+            pattern in query_lower
+            for pattern in broad_patterns
+        )
+
+    # =====================================================
+    # SOURCE / METADATA SCORE
+    # =====================================================
+
+    def metadata_score(self, query, metadata):
+
+        if not metadata:
+            return 0.0
+
+        query_clean = self.clean_query(query)
+
+        score = 0.0
+
+        source = str(
+            metadata.get("source", "")
+        ).lower()
+
+        title = str(
+            metadata.get("title", "")
+        ).lower()
+
+        section = str(
+            metadata.get("section", "")
+        ).lower()
+
+        # Exact query words in metadata
+        keywords = self.extract_keywords(query)
+
+        for keyword in keywords:
+
+            if keyword in title:
+                score += 0.20
+
+            if keyword in section:
+                score += 0.15
+
+            if keyword in source:
+                score += 0.10
+
+        return min(score, 1.0)
+
+    # =====================================================
+    # RETRIEVE CANDIDATES FROM CHROMA
+    # =====================================================
+
+    def retrieve_candidates(
+        self,
+        question,
+        candidate_count=30
+    ):
+
+        query_embedding = self.model.encode(
+            [question]
+        )[0]
+
+        results = self.collection.query(
+            query_embeddings=[
+                query_embedding.tolist()
+            ],
+            n_results=candidate_count,
+            include=[
+                "documents",
+                "metadatas",
+                "distances"
+            ]
+        )
+
+        documents = results.get(
+            "documents",
+            [[]]
+        )[0]
+
+        metadatas = results.get(
+            "metadatas",
+            [[]]
+        )[0]
+
+        distances = results.get(
+            "distances",
+            [[]]
+        )[0]
+
+        candidates = []
+
+        for i in range(len(documents)):
+
+            document = documents[i]
+
+            metadata = (
+                metadatas[i]
+                if i < len(metadatas)
+                else {}
+            )
+
+            distance = (
+                distances[i]
+                if i < len(distances)
+                else 999
+            )
+
+            candidates.append({
+                "content": document,
+                "metadata": metadata,
+                "distance": distance
+            })
+
+        return candidates
+
+    # =====================================================
+    # RANK RESULTS
+    # =====================================================
+
+    def rank_results(
+        self,
+        question,
+        candidates
+    ):
+
+        ranked = []
+
+        broad_question = self.is_broad_question(
+            question
+        )
+
+        for item in candidates:
+
+            distance = item["distance"]
+
+            # Convert distance to similarity-like score.
+            # Smaller distance = better.
+            semantic_score = 1 / (1 + distance)
+
+            keyword_score = self.keyword_score(
+                question,
+                item["content"]
+            )
+
+            metadata_score = self.metadata_score(
+                question,
+                item["metadata"]
+            )
+
+            # Normal question weighting
+            final_score = (
+                semantic_score * 0.50
+                + keyword_score * 0.35
+                + metadata_score * 0.15
+            )
+
+            # Broad/list questions need stronger keyword matching.
+            if broad_question:
+
+                final_score = (
+                    semantic_score * 0.40
+                    + keyword_score * 0.45
+                    + metadata_score * 0.15
+                )
+
+            item["semantic_score"] = semantic_score
+            item["keyword_score"] = keyword_score
+            item["metadata_score"] = metadata_score
+            item["final_score"] = final_score
+
+            ranked.append(item)
+
+        ranked.sort(
+            key=lambda x: x["final_score"],
+            reverse=True
+        )
+
+        return ranked
+
+    # =====================================================
+    # REMOVE DUPLICATES
+    # =====================================================
+
+    def remove_duplicates(self, results):
+
+        unique_results = []
+
+        seen = set()
+
+        for item in results:
+
+            metadata = item["metadata"]
+
+            source = str(
+                metadata.get("source", "")
+            )
+
+            page = str(
+                metadata.get("page", "")
+            )
+
+            content = item["content"]
+
+            key = (
+                source,
+                page,
+                content[:150]
+            )
+
+            if key in seen:
+                continue
+
+            seen.add(key)
+
+            unique_results.append(item)
+
+        return unique_results
+
+    # =====================================================
+    # MAIN RETRIEVAL FUNCTION
+    # =====================================================
+
+    def retrieve(
+        self,
+        question,
+        candidate_count=30,
+        max_results=8
+    ):
+
+        candidates = self.retrieve_candidates(
+            question,
+            candidate_count
+        )
+
+        ranked = self.rank_results(
+            question,
+            candidates
+        )
+
+        ranked = self.remove_duplicates(
+            ranked
+        )
+
+        final_results = ranked[:max_results]
+
+        return final_results
+
+    # =====================================================
+    # BUILD LLM CONTEXT
+    # =====================================================
+
+    def build_context(self, results):
+
+        context_parts = []
+
+        for index, result in enumerate(
+            results,
+            start=1
+        ):
+
+            metadata = result["metadata"]
+
+            source = metadata.get(
+                "source",
+                "Unknown source"
+            )
+
+            page = metadata.get(
+                "page",
+                ""
+            )
+
+            title = metadata.get(
+                "title",
+                ""
+            )
+
+            section = metadata.get(
+                "section",
+                ""
+            )
+
+            content = result["content"]
+
+            context_parts.append(
+                f"""
+SOURCE {index}
+-------------------------
+Document: {source}
+Title: {title}
+Section: {section}
+Page: {page}
+
+Content:
+{content}
+"""
+            )
+
+        return "\n".join(
+            context_parts
+        )
+
+    # =====================================================
+    # FUNCTION USED BY RAG
+    # =====================================================
+
+    def retrieve_for_llm(
+        self,
+        question,
+        candidate_count=30,
+        max_results=8
+    ):
+
+        results = self.retrieve(
+            question=question,
+            candidate_count=candidate_count,
+            max_results=max_results
+        )
+
+        context = self.build_context(
+            results
+        )
+
+        return {
+            "question": question,
+            "results": results,
+            "context": context
+        }

@@ -1,2 +1,29 @@
 __pycache__/
 *.pyc
+# Secrets
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Frontend
+node_modules/
+dist/
+
+# ChromaDB local storage
+knowledge_base/vector_db/
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Generated files
+*.log
+.vscode/
+.DS_Store

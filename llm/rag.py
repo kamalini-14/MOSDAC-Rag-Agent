@@ -1,235 +1,203 @@
+'''
 from crawler.retriever import MOSDACRetriever
 from llm.llm import MOSDACLLM
-
-
 
 
 class MOSDACRAG:
 
     def __init__(self):
 
-        print("\n")
-        print("=" * 60)
-        print("INITIALIZING MOSDAC RAG SYSTEM")
-        print("=" * 60)
-
-        print("\nLoading Retriever...")
+        print("\nInitializing MOSDAC RAG...")
 
         self.retriever = MOSDACRetriever()
-
-        print("Retriever loaded successfully")
-
-        print("\nLoading NVIDIA LLM...")
-
         self.llm = MOSDACLLM()
 
-        print("NVIDIA LLM loaded successfully")
+        print("MOSDAC RAG initialized successfully.")
 
-        print("\n" + "=" * 60)
-        print("MOSDAC RAG SYSTEM READY")
-        print("=" * 60)
     def ask(self, question):
 
-        print("\n")
-        print("=" * 60)
-        print("STEP 1 : RETRIEVING INFORMATION")
-        print("=" * 60)
-
-        print("Question :", question)
-
-
-        retrieved_data = self.retriever.retrieve_for_llm(
-
-            question=question,
-
-            candidate_count=10,
-
-            max_results=5
-
+        retrieved_data = (
+            self.retriever.retrieve_for_llm(
+                question=question,
+                candidate_count=30,
+                max_results=8
+            )
         )
 
         results = retrieved_data["results"]
 
         context = retrieved_data["context"]
 
-
-        print("\nRelevant chunks found :", len(results))
+        # ---------------------------------------------
+        # No relevant information
+        # ---------------------------------------------
 
         if not results:
 
             return {
-                "answer":
-                    "I could not find this information "
-                    "in the MOSDAC knowledge base.",
-
+                "answer": (
+                    "The information is not available "
+                    "in the MOSDAC knowledge base."
+                ),
                 "sources": []
             }
 
-        print("\n")
-        print("=" * 60)
-        print("RETRIEVED INFORMATION")
-        print("=" * 60)
-
-        for index, result in enumerate(
-            results,
-            start=1
-        ):
-
-            print("\n----------------------------------------")
-
-            print(
-                f"RESULT {index}"
-            )
-
-            print(
-                "Source Type :",
-                result["source_type"]
-            )
-
-            print(
-                "Source      :",
-                result["source"]
-            )
-
-            print(
-                "Page        :",
-                result["page"]
-            )
-
-            print(
-                "Distance    :",
-                result["distance"]
-            )
-
-        
-
-        print("\n")
-        print("=" * 60)
-        print("STEP 2 : GENERATING ANSWER")
-        print("=" * 60)
-
-        print("Sending retrieved context to NVIDIA LLM...")
+        # ---------------------------------------------
+        # Generate answer
+        # ---------------------------------------------
 
         answer = self.llm.generate_answer(
-
             question=question,
-
             context=context
-
         )
 
-
-       
+        # ---------------------------------------------
+        # Sources
+        # ---------------------------------------------
 
         sources = []
 
         for result in results:
 
+            metadata = result["metadata"]
+
             sources.append({
+                "source": metadata.get(
+                    "source",
+                    "Unknown"
+                ),
 
-                "source_type":
-                    result["source_type"],
-
-                "source":
-                    result["source"],
-
-                "page":
-                    result["page"],
-
-                "images":
-                    result["images"],
-
-                "distance":
-                    result["distance"]
-
+                "page": metadata.get(
+                    "page",
+                    None
+                )
             })
 
-
         return {
-
             "answer": answer,
-
             "sources": sources
-
         }
-
 
 
 if __name__ == "__main__":
 
     rag = MOSDACRAG()
 
-    print("\n")
-    print("=" * 60)
-    print("MOSDAC RAG CHATBOT")
-    print("=" * 60)
-
     while True:
 
         question = input(
-            "\nAsk a MOSDAC question "
-            "(type 'exit' to stop): "
-        )
+            "\nAsk MOSDAC: "
+        ).strip()
 
-        if question.lower().strip() == "exit":
-
-            print("\nChatbot stopped.")
-
+        if question.lower() in {
+            "exit",
+            "quit"
+        }:
             break
-
-        if not question.strip():
-
-            continue
 
         result = rag.ask(question)
 
-      
+        print("\nANSWER:")
+        print(result["answer"])
 
-        print("\n")
-        print("=" * 60)
-        print("FINAL MOSDAC ANSWER")
-        print("=" * 60)
+        print("\nSOURCES:")
 
-        print(
-            result["answer"]
+        for source in result["sources"]:
+            print(source)'''
+
+from crawler.retriever import MOSDACRetriever
+from llm.llm import MOSDACLLM
+
+
+class MOSDACRAG:
+
+    def __init__(self):
+        print("\nInitializing MOSDAC RAG...")
+
+        self.retriever = MOSDACRetriever()
+        self.llm = MOSDACLLM()
+
+        print("MOSDAC RAG initialized successfully.")
+
+    def ask(self, question, history=None):
+
+        history = history or []
+
+        # Build a retrieval query that includes recent context.
+        # This helps with follow-ups such as "When was it launched?"
+        retrieval_query = question
+
+        if history:
+            recent_context = []
+
+            for item in history[-3:]:
+                recent_context.append(
+                    f"Previous question: {item['question']}"
+                )
+                recent_context.append(
+                    f"Previous answer: {item['answer']}"
+                )
+
+            retrieval_query = (
+                "\n".join(recent_context)
+                + "\nLatest question: "
+                + question
+            )
+
+        retrieved_data = self.retriever.retrieve_for_llm(
+            question=retrieval_query,
+            candidate_count=30,
+            max_results=8,
         )
 
-                                     
+        results = retrieved_data["results"]
+        context = retrieved_data["context"]
 
-        print("\n")
-        print("=" * 60)
-        print("SOURCES USED")
-        print("=" * 60)
+        if not results:
+            return {
+                "answer": (
+                    "The information is not available "
+                    "in the MOSDAC knowledge base."
+                ),
+                "sources": [],
+            }
 
-        for index, source in enumerate(
-            result["sources"],
-            start=1
-        ):
+        answer = self.llm.generate_answer(
+            question=question,
+            context=context,
+            history=history,
+        )
 
-            print(
-                f"\nSource {index}"
-            )
+        sources = []
 
-            print(
-                "Type :",
-                source["source_type"]
-            )
+        for result in results:
+            metadata = result["metadata"]
 
-            print(
-                "File :",
-                source["source"]
-            )
+            sources.append({
+                "source": metadata.get("source", "Unknown"),
+                "page": metadata.get("page"),
+            })
 
-            if source["page"]:
+        return {
+            "answer": answer,
+            "sources": sources,
+        }
 
-                print(
-                    "Page :",
-                    source["page"]
-                )
 
-            if source["images"]:
+if __name__ == "__main__":
+    rag = MOSDACRAG()
 
-                print(
-                    "Images :",
-                    source["images"]
-                )
+    while True:
+        question = input("\nAsk MOSDAC: ").strip()
+
+        if question.lower() in {"exit", "quit"}:
+            break
+
+        result = rag.ask(question)
+
+        print("\nANSWER:")
+        print(result["answer"])
+
+        print("\nSOURCES:")
+        for source in result["sources"]:
+            print(source)
